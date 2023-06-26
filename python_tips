@@ -1,0 +1,33 @@
+# 1 通过threading.Lock/RLock 保证线程操作安全
+```
+# -*- coding: utf-8 -*-
+import time
+import threading
+
+
+class Account:
+    def __init__(self, account_no, balance):
+        self.account_no = account_no
+        self.balance = balance
+        self.lock = threading.Lock()
+
+
+def draw(account, draw_amount):
+    account.lock.acquire()
+    try:
+        if account.balance >= draw_amount:
+            time.sleep(0.001)  # 模拟发生了线程切换
+            account.balance -= draw_amount
+            print(threading.current_thread().name + "取钱成功！吐出钞票:" + str(draw_amount) + " 余额：" + str(account.balance))
+        else:
+            print(threading.current_thread().name + "取钱失败！余额不足！" + " 余额：" + str(account.balance))
+    finally:
+        account.lock.release()
+
+
+acct = Account("账号", 1000)
+t1 = threading.Thread(name='甲', target=draw, args=(acct, 800))
+t2 = threading.Thread(name='乙', target=draw, args=(acct, 800))
+t1.start()
+t2.start()
+```
