@@ -31,3 +31,18 @@ t2 = threading.Thread(name='乙', target=draw, args=(acct, 800))
 t1.start()
 t2.start()
 ```
+
+# 2 supervisor
+pip install supervisor, 安装成功后 echo_supervisord_conf 将看到示例配置信息
+echo_supervisord_conf > /etc/supervisord.conf
+
+Gunicorn的中文翻译是独角兽（读音：dú jiǎo mǔ），Gunicorn的英文翻译是"Green Unicorn"
+pip install gunicorn==19.9.0
+Requirement already satisfied: gunicorn==19.9.0 in /usr/lib/python2.7/site-packages (19.9.0)
+pip install supervisor==4.2.5
+Requirement already satisfied: supervisor==4.2.5 in /usr/lib/python2.7/site-packages (4.2.5)
+
+gunicorn PmsService.wsgi:application
+
+
+
